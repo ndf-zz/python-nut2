@@ -17,14 +17,16 @@ nut2
 This is an API overhaul of PyNUT_, a Python library to allow communication with NUT
 (`Network UPS Tools`_) servers.
 
+**Note**: Updated package to remove telnetlib dependency and convert
+to PEP 517 build
+
 **Note**: This is an unofficial project, and is in no way supported or
 endorsed by the `Network UPS Tools developers`_.
 
 Requirements
 ------------
 
-The module itself requires only Python (2.7 or 3.5+).
-If you wish to run the tests, do ``pip install -r requirements-testing.txt``.
+The module itself requires only Python 3.
 
 Usage
 -----
@@ -45,9 +47,9 @@ See inline documentation for more usage information.
 Installation
 ------------
 
-Just use pip::
+Use pip::
 
-    pip install nut2
+    pip install nut2-notl
 
 PyNUT
 -----

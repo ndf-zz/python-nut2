@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import logging
 from socket import create_connection
 
-__version__ = '2.1.2a1'
+__version__ = '2.1.2'
 __all__ = ['PyNUTError', 'PyNUTClient']
 
 logging.basicConfig(level=logging.WARNING,
