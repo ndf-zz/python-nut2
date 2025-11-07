@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# SPDX-License-Identifier: GPL-3.0-or-later
 """A Python module for dealing with NUT (Network UPS Tools) servers.
 
 * PyNUTError: Base class for custom exceptions.
