@@ -24,8 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 from socket import create_connection
+from contextlib import suppress
 
-__version__ = '2.1.2'
+__version__ = '2.1.3'
 __all__ = ['PyNUTError', 'PyNUTClient']
 
 logging.basicConfig(level=logging.WARNING,
@@ -80,12 +81,9 @@ class PyNUTClient(object):
     def __del__(self):
         # Try to disconnect cleanly when class is deleted.
         if self._srv_handler:
-            try:
+            with suppress(Exception):
                 self._srv_handler.sendall(b"LOGOUT\n")
                 self._srv_handler.close()
-            except (telnetlib.socket.error, AttributeError):
-                # The socket is already disconnected.
-                pass
 
     def __enter__(self):
         return self
@@ -130,25 +128,22 @@ class PyNUTClient(object):
         """
         logging.debug("Connecting to host")
 
-        try:
-            self._srv_handler = create_connection((self._host, self._port),
+        self._srv_handler = create_connection((self._host, self._port),
                                                   timeout=self._timeout)
 
-            if self._login is not None:
+        if self._login is not None:
                 self._srv_handler.sendall(b"USERNAME %s\n" %
                                           self._login.encode('utf-8'))
                 result = self._read_until(b"\n").decode('utf-8')
                 if not result == "OK\n":
                     raise PyNUTError(result.replace("\n", ""))
 
-            if self._password is not None:
+        if self._password is not None:
                 self._srv_handler.sendall(b"PASSWORD %s\n" %
                                           self._password.encode('utf-8'))
                 result = self._read_until(b"\n").decode('utf-8')
                 if not result == "OK\n":
                     raise PyNUTError(result.replace("\n", ""))
-        except telnetlib.socket.error:
-            raise PyNUTError("Socket error.")
 
     def description(self, ups):
         """Returns the description for a given UPS."""
